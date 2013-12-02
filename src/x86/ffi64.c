@@ -325,6 +325,8 @@ ffi_prep_cif_machdep (ffi_cif *cif)
 
 	  bytes = ALIGN(bytes, align);
 	  bytes += cif->arg_types[i]->size;
+	  // Keep arg pointer aligned after adding parameter with size <8 bytes
+	  bytes = ALIGN(bytes, align);
 	}
       else
 	{
@@ -394,8 +396,15 @@ ffi_call (ffi_cif *cif, void (*fn)(void), void *rvalue, void **avalue)
 
 	  /* Pass this argument in memory.  */
 	  argp = (void *) ALIGN (argp, align);
+	  // Framework can treat jint as void* and load 8 bytes instead of 4
+	  // The higher bytes could be junk (contain values previously written to stack)
+	  // Therefore, we are zeroing all 8 bytes
+	  size_t full_size = ALIGN(size, align);
+	  memset (argp, 0, full_size);
 	  memcpy (argp, avalue[i], size);
 	  argp += size;
+	  // Keep arg pointer aligned after adding parameter with size <8 bytes
+	  argp = (void *) ALIGN (argp, align);
 	}
       else
 	{
