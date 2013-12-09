@@ -23,9 +23,8 @@ LOCAL_PATH:= $(call my-dir)
 # Build rules for the target.
 #
 
-# We only build ffi at all for non-arm, non-x86 targets.
+# We only build ffi at all for non-arm targets.
 ifneq ($(TARGET_ARCH),arm)
-    ifneq ($(TARGET_ARCH),x86)
 
        include $(CLEAR_VARS)
 
@@ -40,7 +39,6 @@ ifneq ($(TARGET_ARCH),arm)
 
        include $(BUILD_SHARED_LIBRARY)
 
-    endif
 endif
 
 # Also include the rules for the test suite.
