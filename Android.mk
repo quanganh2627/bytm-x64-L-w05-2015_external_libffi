@@ -23,8 +23,8 @@ LOCAL_PATH:= $(call my-dir)
 # Build rules for the target.
 #
 
-# We only build ffi for mips.
-ifeq ($(TARGET_ARCH),mips)
+# We only build ffi for mips/x86.
+ifneq (,$(filter $(TARGET_ARCH), mips x86))
 
    include $(CLEAR_VARS)
 
