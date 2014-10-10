@@ -24,7 +24,7 @@ LOCAL_PATH:= $(call my-dir)
 #
 
 # We only build ffi for mips/x86.
-ifneq (,$(filter $(TARGET_ARCH), mips x86))
+ifneq (,$(filter $(TARGET_ARCH), mips x86 x86_64))
 
    include $(CLEAR_VARS)
 

@@ -35,14 +35,15 @@ ifeq ($(ffi_os)-$(ffi_arch),linux-x86)
 endif
 
 ifeq ($(ffi_os)-$(ffi_arch),linux-x86_64)
-  LOCAL_SRC_FILES := src/x86/ffi64.c src/x86/unix64.S
+  LOCAL_SRC_FILES_64 := src/x86/ffi64.c src/x86/unix64.S
+  LOCAL_SRC_FILES_32 := src/x86/ffi.c src/x86/sysv.S
 endif
 
 ifeq ($(ffi_os)-$(ffi_arch),darwin-x86)
   LOCAL_SRC_FILES := src/x86/ffi.c src/x86/darwin.S
 endif
 
-ifeq ($(LOCAL_SRC_FILES),)
+ifeq ($(LOCAL_SRC_FILES)$(LOCAL_SRC_FILES_64),)
   $(info The os/architecture $(ffi_os)-$(ffi_arch) is not supported by libffi.)
   LOCAL_SRC_FILES := your-architecture-not-supported-by-ffi-makefile.c
 endif
